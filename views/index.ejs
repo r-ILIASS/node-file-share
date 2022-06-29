@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Share</title>
+    <!-- Styles -->
+    <style>
+      form {
+        margin: 0 auto;
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: auto 1fr;
+        max-width: 500px;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+      button {
+        grid-column: span 2;
+      }
+    </style>
+  </head>
+
+  <!-- Body -->
+  <body>
+    <!-- Form -->
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+      </div>
+      <button type="submit">Share</button>
+    </form>
+  </body>
+</html>
