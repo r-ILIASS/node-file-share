@@ -1,0 +1,12 @@
+{
+  "name": "file-share",
+  "version": "1.0.0",
+  "description": "Password Protected File Sharing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "r-iliass",
+  "license": "ISC"
+}
