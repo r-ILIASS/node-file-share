@@ -1,25 +1,44 @@
-// Multer
-const multer = require("multer");
+const bcrypt = require("bcrypt");
+// .env
+require("dotenv").config();
+
 // Express
 const express = require("express");
-const app = express();
+const app = express(); // express app
+app.set("view engine", "ejs"); // view engine
 
-// Multer middleware
-const upload = multer({ dest: "uploads" });
+// Mongoose
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.DB_URL) // try connecting to db
+  .then(() => console.log("*** MONGOOSE: CONNECTED TO DB"))
+  .catch((ex) => console.log("*** MONGOOSE: ERROR", ex));
 
-// Setting the view engine
-app.set("view engine", "ejs");
+// Models
+const File = require("./models/Files");
 
-// Routes HEAD
-// Home
+// Multer
+const multer = require("multer");
+const upload = multer({ dest: "uploads" }); // upload middleware
+
+// *Routes
 app.get("/", (req, res) => {
   res.render("index");
 });
-// /upload POST
-// Run upload middlware first
-app.post("/upload", upload.single("file"), (req, res) => {
-  res.send("File submitted");
-});
-// Route TAIL
 
-app.listen(4000);
+app.post("/upload", upload.single("file"), async (req, res) => {
+  // map submited file data
+  const pwd = req.body.password;
+  const fileData = {
+    path: req.file.path,
+    originalName: req.file.originalname,
+  };
+  // add hashed pwd if pwd exists
+  if (pwd != null && pwd !== "") fileData.password = await bcrypt.hash(pwd, 10);
+
+  await File.create(fileData);
+
+  res.sendStatus(200);
+});
+
+app.listen(process.env.PORT);
